@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1039683407429",
+    "project_id": "age-calculator-app-a778e",
+    "storage_bucket": "age-calculator-app-a778e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039683407429:android:171b48311ad2e8a26b1d2c",
+        "android_client_info": {
+          "package_name": "in.diptanuchakraborty.agecalculator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039683407429-eajnc2on2ppo2udmr9705bah8qq4bokm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXRDv2ipD0EgAlZm-WerHTPRrCl1l2oww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039683407429-eajnc2on2ppo2udmr9705bah8qq4bokm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
