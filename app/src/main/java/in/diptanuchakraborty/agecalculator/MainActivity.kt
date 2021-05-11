@@ -1,35 +1,21 @@
 package `in`.diptanuchakraborty.agecalculator
 
 import android.app.DatePickerDialog
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.constraintlayout.solver.widgets.ConstraintWidget.INVISIBLE
-import androidx.constraintlayout.widget.ConstraintSet
 import com.airbnb.lottie.LottieAnimationView
 import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import com.muddassir.connection_checker.ConnectionChecker
-import com.muddassir.connection_checker.ConnectionState
-import com.muddassir.connection_checker.ConnectivityListener
-import org.joda.time.*
-import org.json.JSONObject
 import java.util.*
-import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
@@ -220,22 +206,27 @@ class MainActivity : AppCompatActivity() {
 
         //check for update json data
         val queue = Volley.newRequestQueue(this)
-        val url = "https://agecalculatorapp.diptanuchakraborty.in/api/data"
+        val url =
+            "https://webhooks.mongodb-realm.com/api/client/v2.0/app/agecalculator-pqdxa/service/ageCalculatorApp/incoming_webhook/agecalcwebhook"
+        var update = 0
+        var version: Double = 0.0
+        var link = ""
+        var forceupdate = 0
+        //fetch current version from app
+        var currentVersion = getString(R.string.version_num).toDouble()
 
-        // Request a string response from the provided URL.
-        val stringRequest = JsonObjectRequest(
-            Request.Method.GET, url, null,
+
+// Request a string response from the provided URL.
+        val jsonObjectRequest = JsonArrayRequest(Request.Method.POST, url, null,
             { response ->
-                // Display the first 500 characters of the response string.
-                var jsobj = JSONObject()
-                jsobj = response //converted to json JSONObject
-                var update = response["update"].toString().toInt() //check for update
-                var version = response["version"].toString().toDouble() //check for version
-                var link = response["link"].toString() //check for link
-                var forceupdate =
-                    response["forceupdate"].toString().toInt() //check for force update
-                //fetch current version from app
-                var currentVersion = getString(R.string.version_num).toDouble()
+                for (i in 0 until response.length()) {
+                    val jsonObject = response.getJSONObject(i)
+                    update = jsonObject.optString("update").toInt()
+                    version = jsonObject.optString("version").toDouble()
+                    link = jsonObject.optString("link").toString()
+                    forceupdate = jsonObject.optString("forceupdate").toInt()
+                }
+
 
                 if (forceupdate == 0) {
                     if (update == 1 && (version > currentVersion)) {
@@ -262,10 +253,10 @@ class MainActivity : AppCompatActivity() {
                         builder.show()
                     } //inner if
 
-                } //outerif
+                } //outer if
                 else {
 //                        delete everything
-                            var  contentView:View = findViewById(R.id.screen1)
+                    var contentView: View = findViewById(R.id.screen1)
                     contentView.visibility = View.GONE
                     val builder = AlertDialog.Builder(this, R.style.datePickerDialog)
                     builder.setTitle("New Version")
@@ -284,11 +275,13 @@ class MainActivity : AppCompatActivity() {
                     builder.show()
                 }
 
-            },
-            { })
 
-// Add the request to the RequestQueue.
-        queue.add(stringRequest)
+            },
+            { error ->
+                Log.d("error", "got error in fetching")
+            }
+        )
+        queue.add(jsonObjectRequest)
 
 
     }

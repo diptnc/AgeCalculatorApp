@@ -16,9 +16,9 @@
     <string name="resultsPage_btn2">Support me</string>
     <!--    supportpage-->
     <string name="biography">Hi I am Diptanu Chakraborty, UI / UX designer, Web-developer, Graphic Designer, Music producer, Video editor, from Agartala, Tripura INDIA.I have rich experience in website designing as well as building Php Applications. In addition to that I have working experience as a Sound designer &amp; Video Editor.</string>
-<string name="gpay">chakrabortyd943@oksbi</string>
-    <string name="version_num">1.1</string>
-<!--    update your app-->
+    <string name="gpay">chakrabortyd943@oksbi</string>
+    <string name="version_num">1.2</string>
+    <!--    update your app-->
     <string name="update_text_normal">New update is available please update your app .</string>
-    <string name="update_text_crucial">App update required  please update your app .</string>
+    <string name="update_text_crucial">App update required please update your app .</string>
 </resources>
